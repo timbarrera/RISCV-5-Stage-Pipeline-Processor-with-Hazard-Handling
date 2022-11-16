@@ -9,10 +9,10 @@
 Changes to single cycle modules are referring to previous single cycle processor modules found here: https://github.com/timbarrera/Single-Cycle-RISCV-Processor.git
 
 
-some notes on modules:
+## some notes on modules:
 
 
-Unchanged modules from single cycle
+##### Unchanged modules from single cycle
 - Register File: riscv_reg.sv
 - Immediate Generator: riscv_imm
 - ALU: risc_alu.sv
@@ -20,15 +20,15 @@ Unchanged modules from single cycle
 - Mem to Register MUX: ResultW_mux.sv (only made into separate module)
 
 
-Core
+##### Core
 riscv_pipeline_core.sv - topmost, all modules instantiated here (except memories and tb)
 
 
-Testbench
+##### Testbench
 tb_riscv_core_pipeline.sv - main testbench for core module
 
 
-Pipeline Registers
+##### Pipeline Registers
 - (risc_pc.sv), Decode_stage.sv, Execute_stage.sv, Mem_stage.sv, WriteBack_stage.sv
 - all stages have inputs and outputs according to datapath
 - control signals are received as an array of control signals and are passed to the next register by truncating the signals that won't be needed anymore
@@ -36,28 +36,28 @@ Pipeline Registers
 - instruction fetch (PC) and decode stage register have negetive-enable signal dis. when enable is 0 (or dis is 1) the data in the register will not update. used for stalling
 
 
-Program Counter
+##### Program Counter
 risc_pc.sv - removed built in mux from single cycle, simply updates to the next address when enabled
 - added built in adder, outputs PC+4 to be passed onto the decode stage
 
 
-Instruction Slicer
+##### Instruction Slicer
 Inst_slicer.sv - slices intruction; when there is no rs2 in the instruction encoding (lw type or i type), rs2 is hardcoded to 0
 
 
-Controller
+##### Controller
 risc_controller_pipeline.sv 
 - rearranged control signals such that it matches the arrangement of signals in the datapath (ImmSrcD is bit 1 and 0)
 - removed PCSrc from single cycle; PCSrc is now a separate logic determined in the execute stage as PCSrcE
 - added two signals: branch and jump, determined by opcode
 
 
-Hazard Unit
+##### Hazard Unit
 HAZARD_control.sv - inputs and outputs is same in datapath
 - control logic the same in spec sheet except stalling would also require that either rs1D or rs2D is not 0
 
 
-MUXs and logics
+##### MUXs and logics
 - MUXs to support forwarding: SrcAE_mux.sv, SrcBE_mux.sv
 - MUXs to support branching or jumping: PCF_mux.sv; PCF_mux.sv has built in adder for target PC in branching or jumping 
 
