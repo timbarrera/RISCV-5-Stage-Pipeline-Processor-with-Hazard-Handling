@@ -21,45 +21,50 @@ Changes to single cycle modules are referring to previous single cycle processor
 
 
 ##### Core
-riscv_pipeline_core.sv - topmost, all modules instantiated here (except memories and tb)
+riscv_pipeline_core.sv 
+- topmost, all modules instantiated here (except memories and tb)
 
 
 ##### Testbench
-tb_riscv_core_pipeline.sv - main testbench for core module
+tb_riscv_core_pipeline.sv 
+- main testbench for core module
 
 
 ##### Pipeline Registers
 - (risc_pc.sv), Decode_stage.sv, Execute_stage.sv, Mem_stage.sv, WriteBack_stage.sv
 - all stages have inputs and outputs according to datapath
-- control signals are received as an array of control signals and are passed to the next register by truncating the signals that won't be needed anymore
+- control signals are received as an array of control signals and are passed to the next register by **truncating** the signals that won't be needed anymore
 - decode and execute stage registers have a clear signal for flushing. all outputs are to be zero when hazard unit detects a lw stall or branch or jump
 - instruction fetch (PC) and decode stage register have negetive-enable signal dis. when enable is 0 (or dis is 1) the data in the register will not update. used for stalling
 
 
 ##### Program Counter
-risc_pc.sv - removed built in mux from single cycle, simply updates to the next address when enabled
+risc_pc.sv 
+- **removed built in mux from single cycle**, simply updates to the next address when enabled
 - added built in adder, outputs PC+4 to be passed onto the decode stage
 
 
 ##### Instruction Slicer
-Inst_slicer.sv - slices intruction; when there is no rs2 in the instruction encoding (lw type or i type), rs2 is hardcoded to 0
+Inst_slicer.sv 
+- slices intruction; when there is no rs2 in the instruction encoding (lw type or i type),** rs2 is hardcoded to 0**
 
 
 ##### Controller
 risc_controller_pipeline.sv 
 - rearranged control signals such that it matches the arrangement of signals in the datapath (ImmSrcD is bit 1 and 0)
-- removed PCSrc from single cycle; PCSrc is now a separate logic determined in the execute stage as PCSrcE
-- added two signals: branch and jump, determined by opcode
+- removed PCSrc from single cycle; **PCSrc is now a separate logic** determined in the execute stage as PCSrcE
+- **added two signals**: branch and jump, determined by opcode
 
 
 ##### Hazard Unit
-HAZARD_control.sv - inputs and outputs is same in datapath
-- control logic the same in spec sheet except stalling would also require that either rs1D or rs2D is not 0
+HAZARD_control.sv 
+- inputs and outputs is same in datapath
+- control logic the same in spec sheet except **stalling would also require that either rs1D or rs2D is not 0**
 
 
 ##### MUXs and logics
 - MUXs to support forwarding: SrcAE_mux.sv, SrcBE_mux.sv
-- MUXs to support branching or jumping: PCF_mux.sv; PCF_mux.sv has built in adder for target PC in branching or jumping 
+- MUXs to support branching or jumping: PCF_mux.sv; **PCF_mux.sv has built in adder** for target PC in branching or jumping 
 
 
 
