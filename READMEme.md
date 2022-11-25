@@ -13,7 +13,7 @@ Changes to single cycle modules are referring to previous single cycle processor
 
 
 ##### Unchanged modules from single cycle
-- Register File: riscv_reg.sv
+- Register File: riscv_reg.sv (only made to be negative edge clocked)
 - Immediate Generator: riscv_imm
 - ALU: risc_alu.sv
 - ALU Source MUX: ALUSrc_mux.sv (only made into separate module)
